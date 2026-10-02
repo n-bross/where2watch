@@ -1,8 +1,37 @@
 # where2watch
 
-Flutter-Web-Prototyp für einen länderübergreifenden Streamingvergleich. Dunkle, responsive Oberfläche mit Titelsuche, Länder- und Anbieterfiltern, Abo-Filter und lokaler Watchlist.
+Streamingangebote über Ländergrenzen hinweg finden — direkt im Terminal. Eine Flutter-Web-Vorschau mit Watchlist ist ebenfalls enthalten.
 
-## Starten
+## Terminal-Anwendung
+
+Nur Python 3.10+ nötig. Kein Flutter-Build, Browser oder laufender Webserver erforderlich.
+
+```bash
+# Ohne Zugangsdaten ausprobieren (erfundene Angebote, acht Demo-Titel)
+./where2watch --demo Interstellar
+./where2watch --demo Dune --country US,CA --provider Netflix --abo
+
+# Echte Filmdaten und weltweite Streamingangebote
+export TMDB_READ_ACCESS_TOKEN='your-read-access-token'
+./where2watch Interstellar
+./where2watch "House of the Dragon"
+
+# Ohne Namen: interaktive Suchfrage
+./where2watch
+
+# Für Skripte
+./where2watch Interstellar --json
+./where2watch Dune --year 2021 --pick 1
+./where2watch --help
+```
+
+Die Ausgabe enthält Titel, Typ, Jahr, Beschreibung, Bewertung und alle gemeldeten Länder mit Anbietern und Angebotsarten. Im Live-Modus kommen – soweit vorhanden – Originaltitel, Genres, Laufzeit, Veröffentlichung, Regie/Schöpfer, Besetzung, Serienumfang, Status und Originalsprachen hinzu. Originalsprachen sind keine Aussage über verfügbare Streaming-Tonspuren. Die Links führen zu TMDB-Angebotsübersichten, nicht direkt zum Stream.
+
+Bei mehreren Treffern fragt die CLI nach einer Nummer. Bei `--json` oder ohne interaktives Terminal gibt sie die Kandidaten auf stderr aus; `--pick N` wählt einen davon. Die Suche verwendet die erste TMDB-Ergebnisseite. `--country DE,US` filtert Länder; `--provider NAME` filtert Anbieternamen ohne Beachtung der Groß-/Kleinschreibung und ist mehrfach möglich. Ohne Filter werden alle gemeldeten Länder angezeigt.
+
+Ohne Token zeigt die CLI eine Fehlermeldung mit Einrichtungshinweis; sie wechselt **nicht automatisch auf erfundene Daten**. Nur `--demo` verwendet Beispielangebote. Exit-Codes: `0` Erfolg, `1` keine Treffer, `2` Eingabe-/Datenquellenfehler, `130` Abbruch. Ein Titel ohne gemeldete Angebote bleibt ein erfolgreiches Suchergebnis.
+
+## Flutter-Web-Vorschau
 
 Voraussetzung: Flutter Stable und Python 3.10+.
 
@@ -39,6 +68,7 @@ Live-Suche liefert bis zu 20 Titel pro Anfrage. Länder- und Anbieterfilter wirk
 flutter analyze
 flutter test
 python3 -m unittest discover -s server -p 'test_*.py'
+python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
 ## Datenquellen

@@ -1,0 +1,266 @@
+[
+  {
+    "title": "Dune: Part Two",
+    "year": "2024",
+    "genre": "Science-Fiction",
+    "overview": "Paul Atreides verbündet sich mit Chani und den Fremen. Zwischen Liebe und dem Schicksal des Universums muss er eine Entscheidung treffen.",
+    "poster": "dune.jpg",
+    "id": 693134,
+    "rating": 8.2,
+    "series": false,
+    "offers": [
+      {
+        "country": "US",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "CA",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "DE",
+        "provider": "Prime Video",
+        "type": "Leihen",
+        "link": null
+      },
+      {
+        "country": "GB",
+        "provider": "Prime Video",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "FR",
+        "provider": "Apple TV+",
+        "type": "Kaufen",
+        "link": null
+      }
+    ]
+  },
+  {
+    "title": "Interstellar",
+    "year": "2014",
+    "genre": "Science-Fiction",
+    "overview": "Eine Gruppe von Forschern reist durch ein Wurmloch, um der Menschheit eine Zukunft jenseits der Erde zu ermöglichen.",
+    "poster": "interstellar.jpg",
+    "id": 157336,
+    "rating": 8.4,
+    "series": false,
+    "offers": [
+      {
+        "country": "DE",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "US",
+        "provider": "Prime Video",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "GB",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "JP",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      }
+    ]
+  },
+  {
+    "title": "Oppenheimer",
+    "year": "2023",
+    "genre": "Drama",
+    "overview": "Der Physiker J. Robert Oppenheimer steht im Zentrum eines Projekts, das die Welt für immer verändern wird.",
+    "poster": "oppenheimer.jpg",
+    "id": 872585,
+    "rating": 8.1,
+    "series": false,
+    "offers": [
+      {
+        "country": "DE",
+        "provider": "Prime Video",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "US",
+        "provider": "Prime Video",
+        "type": "Leihen",
+        "link": null
+      },
+      {
+        "country": "CA",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      }
+    ]
+  },
+  {
+    "title": "Spider-Man: Across the Spider-Verse",
+    "year": "2023",
+    "genre": "Animation",
+    "overview": "Miles Morales reist durch das Multiversum und begegnet einem Team von Spider-People, das dessen Existenz beschützen soll.",
+    "poster": "spiderverse.jpg",
+    "id": 569094,
+    "rating": 8.4,
+    "series": false,
+    "offers": [
+      {
+        "country": "US",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "FR",
+        "provider": "Disney+",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "DE",
+        "provider": "Prime Video",
+        "type": "Leihen",
+        "link": null
+      }
+    ]
+  },
+  {
+    "title": "Get Out",
+    "year": "2017",
+    "genre": "Thriller",
+    "overview": "Ein Besuch bei den Eltern seiner Freundin wird für Chris zu einer zunehmend beunruhigenden Erfahrung.",
+    "poster": "getout.jpg",
+    "id": 419430,
+    "rating": 7.6,
+    "series": false,
+    "offers": [
+      {
+        "country": "GB",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "DE",
+        "provider": "Prime Video",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "AU",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      }
+    ]
+  },
+  {
+    "title": "Chihiros Reise ins Zauberland",
+    "year": "2001",
+    "genre": "Animation",
+    "overview": "Chihiro gerät in eine Welt voller Geister und Magie und muss ihren Mut finden, um ihre Eltern zu retten.",
+    "poster": "spirited.jpg",
+    "id": 129,
+    "rating": 8.5,
+    "series": false,
+    "offers": [
+      {
+        "country": "DE",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "FR",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "CA",
+        "provider": "Netflix",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "US",
+        "provider": "Prime Video",
+        "type": "Kaufen",
+        "link": null
+      }
+    ]
+  },
+  {
+    "title": "House of the Dragon",
+    "year": "2022",
+    "genre": "Fantasy",
+    "overview": "Das Haus Targaryen steht auf dem Höhepunkt seiner Macht. Ein Kampf um die Thronfolge droht die Dynastie zu zerreißen.",
+    "poster": "dragon.jpg",
+    "id": 94997,
+    "rating": 8.3,
+    "series": true,
+    "offers": [
+      {
+        "country": "DE",
+        "provider": "Prime Video",
+        "type": "Kaufen",
+        "link": null
+      },
+      {
+        "country": "GB",
+        "provider": "Prime Video",
+        "type": "Kaufen",
+        "link": null
+      }
+    ]
+  },
+  {
+    "title": "WALL·E",
+    "year": "2008",
+    "genre": "Animation",
+    "overview": "Ein kleiner Roboter mit einem großen Herzen entdeckt eine neue Bestimmung und folgt seiner Liebe ins All.",
+    "poster": "walle.jpg",
+    "id": 10681,
+    "rating": 8.1,
+    "series": false,
+    "offers": [
+      {
+        "country": "DE",
+        "provider": "Disney+",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "US",
+        "provider": "Disney+",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "GB",
+        "provider": "Disney+",
+        "type": "Abo",
+        "link": null
+      },
+      {
+        "country": "AU",
+        "provider": "Disney+",
+        "type": "Abo",
+        "link": null
+      }
+    ]
+  }
+]
