@@ -1,0 +1,16 @@
+services:
+  vpn:
+    image: qmcgaw/gluetun:v3.41.3
+    cap_add: [NET_ADMIN]
+    devices: [/dev/net/tun:/dev/net/tun]
+    environment:
+      VPN_SERVICE_PROVIDER: ${W2W_VPN_PROVIDER:-surfshark}
+      OPENVPN_USER: ${W2W_OPENVPN_USER:-}
+      OPENVPN_PASSWORD: ${W2W_OPENVPN_PASSWORD:-}
+      VPN_TYPE: openvpn
+      SERVER_COUNTRIES: ${W2W_VPN_COUNTRY:-Canada}
+      HTTPPROXY: "on"
+      HTTPPROXY_LOG: "off"
+    ports:
+      - "127.0.0.1:41488:8888"
+    restart: "no"

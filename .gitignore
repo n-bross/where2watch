@@ -52,3 +52,7 @@ app.*.map.json
 .env.*
 __pycache__/
 *.pyc
+
+# Local verification runtime, Netflix sessions and private reports
+.venv-verify/
+.verify-state/

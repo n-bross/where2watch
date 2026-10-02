@@ -93,6 +93,32 @@ class CliTests(unittest.TestCase):
             selected = cli.choose(matches,None,True,'Film',io.StringIO())
         self.assertEqual(selected,matches[1])
 
+    def test_verification_rejects_demo_candidates(self):
+        with patch('verification.verify') as verify:
+            status, out, err = self.invoke(['--demo','Interstellar','--verify'])
+        self.assertEqual(status,2)
+        self.assertEqual(out,'')
+        self.assertIn('--demo',err)
+        verify.assert_not_called()
+
+    def test_verification_results_are_in_json_and_failures_have_distinct_exit_code(self):
+        movie = {'id':1,'title':'Film','year':'2024','series':False,'offers':[]}
+        for check_status, exit_status in [('playable',0),('unverified',3),('login_required',3)]:
+            report = {'results':[{'country':'CA','status':check_status,'note':'test'}],
+                      'not_checked':[],'cleanup_error':None,'report_path':'/tmp/report.json'}
+            with self.subTest(status=check_status), patch.object(cli.catalog,'TOKEN','test'), patch.object(cli,'search',return_value=[movie]), patch.object(cli,'details',return_value=dict(movie)), patch('verification.verify',return_value=report):
+                status, out, err = self.invoke(['Film','--verify','--json'])
+            self.assertEqual(status,exit_status)
+            self.assertEqual(err,'')
+            self.assertEqual(json.loads(out)['verification']['results'][0]['status'],check_status)
+
+    def test_login_has_no_movie_or_tmdb_token_requirement(self):
+        with patch.object(cli.catalog,'TOKEN',''), patch('verification.login') as login:
+            status, out, err = self.invoke(['--netflix-login'])
+        self.assertEqual(status,0)
+        self.assertEqual(err,'')
+        login.assert_called_once()
+
     def test_invalid_selection_is_not_an_arbitrary_match(self):
         status, out, err = self.invoke(['--demo','Interstellar','--pick','0'])
         self.assertEqual(status,2)

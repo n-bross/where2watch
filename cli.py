@@ -42,6 +42,11 @@ def parser():
         prog='where2watch', description='Film oder Serie suchen und Streamingangebote weltweit vergleichen.',
         epilog='Beispiele: ./where2watch Interstellar | ./where2watch --demo Dune --abo --country US,CA')
     p.add_argument('name', nargs='*', help='Film- oder Serienname (auch ohne Anführungszeichen)')
+    p.add_argument('--verify', action='store_true', help='Netflix per isoliertem VPN und Chrome prüfen (Linux, lokale Einrichtung nötig)')
+    p.add_argument('--verify-stop', action='store_true', help='Eigenen Prüf-VPN nach einem abgebrochenen Lauf aufräumen')
+    p.add_argument('--netflix-login', action='store_true', help='Eigenes Netflix-Prüfprofil in Chrome anmelden')
+    p.add_argument('--headless', action='store_true', help='Prüfung ohne Fenster; Login und DRM müssen bereits funktionieren')
+    p.add_argument('--verify-limit', type=int, default=5, metavar='N', help='Höchstens N Länder prüfen (Standard: 5)')
     p.add_argument('--demo', action='store_true', help='Explizit mit erfundenen Beispielangeboten ausprobieren')
     p.add_argument('--country', type=country_codes, default=[], metavar='DE,US', help='Auf Länder einschränken; standardmäßig alle gemeldeten Länder')
     p.add_argument('--provider', action='append', default=[], metavar='NAME', help='Anbieter filtern; mehrfach möglich, z. B. --provider Netflix')
@@ -174,6 +179,17 @@ def render(result, stream):
     if result['mode'] == 'live':
         print('Filmdaten: TMDB · Streamingdaten: JustWatch via TMDB', file=stream)
         print('This product uses the TMDB API but is not endorsed or certified by TMDB.', file=stream)
+    if result.get('verification'):
+        section('Netflix-Prüfung')
+        from verification import LABELS
+        report = result['verification']
+        for check in report['results']:
+            line(check['country'], LABELS[check['status']] + ' · ' + check['note'])
+            line('Browser-Aufräumen', check.get('cleanup_note'))
+        if report['not_checked']:
+            line('Nicht geprüft', ', '.join(report['not_checked']))
+        line('Bericht', report['report_path'])
+        line('Aufräumen', report.get('cleanup_error'))
     print('Landesverfügbarkeit bestätigt keinen Zugriff mit einem bestimmten VPN oder Konto.', file=stream)
     if movie.get('languages'):
         print('Filmdaten-Sprachen sind keine Aussage über Tonspuren beim Streaminganbieter.', file=stream)
@@ -185,6 +201,25 @@ def main(argv=None):
     query = ' '.join(args.name).strip()
     interactive = sys.stdin.isatty() and not args.json
     try:
+        if args.verify_limit < 1:
+            raise ValueError('--verify-limit muss mindestens 1 sein.')
+        if args.verify and args.demo:
+            raise ValueError('--verify kann nicht mit erfundenen --demo-Angeboten verwendet werden.')
+        if args.verify or args.netflix_login or args.verify_stop:
+            if not sys.platform.startswith('linux'):
+                raise ValueError('Die automatische VPN-Prüfung unterstützt aktuell Linux.')
+        if args.verify_stop:
+            from verification import stop
+            stop()
+            return 0
+        if args.netflix_login:
+            from verification import login
+            login()
+            return 0
+        local_settings = Path(__file__).resolve().parent / '.env.verify'
+        if not args.demo and not catalog.TOKEN and local_settings.exists():
+            from verification import read_local_settings
+            catalog.TOKEN = read_local_settings().get('TMDB_READ_ACCESS_TOKEN', '')
         if not query:
             if not interactive:
                 p.error('Bitte einen Film- oder Seriennamen angeben.')
@@ -200,15 +235,25 @@ def main(argv=None):
             return 1
         selected = choose(matches, args.pick, interactive, query, sys.stderr)
         movie = details(selected, args.demo)
+        verification_report = None
+        if args.verify:
+            from verification import verify
+            verification_report = verify(movie, args.country, args.verify_limit, args.headless)
         movie['offers'] = filter_offers(movie['offers'], args.country, args.provider, args.abo)
         result = {'mode': 'demo' if args.demo else 'live', 'query': query,
                   'queried_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
                   'filters': {'countries': args.country, 'providers': args.provider, 'subscription_only': args.abo},
                   'movie': movie}
+        if verification_report is not None:
+            result['verification'] = verification_report
         if args.json:
             print(json.dumps(result, ensure_ascii=False, indent=2))
         else:
             render(result, sys.stdout)
+        if verification_report and not any(r['status'] == 'playable' for r in verification_report['results']):
+            return 3
+        if verification_report and (verification_report.get('cleanup_error') or any(r.get('cleanup_note') for r in verification_report['results'])):
+            return 3
         return 0
     except HTTPError as error:
         message = {401: 'TMDB-Token ist ungültig oder abgelaufen.', 403: 'TMDB-Zugriff wurde verweigert.',
